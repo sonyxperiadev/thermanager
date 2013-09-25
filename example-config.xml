@@ -1,0 +1,99 @@
+<thermanager>
+	<resources>
+		<!-- thermal zones -->
+		<resource name="zone0" type="tz">/sys/class/thermal/thermal_zone0</resource>
+		<resource name="zone1" type="tz">/sys/class/thermal/thermal_zone1</resource>
+		<resource name="zone2" type="tz">/sys/class/thermal/thermal_zone2</resource>
+		<resource name="zone3" type="tz">/sys/class/thermal/thermal_zone3</resource>
+		<resource name="zone4" type="tz">/sys/class/thermal/thermal_zone4</resource>
+
+		<resource name="gpu-fan" type="sysfs">/sys/class/fan/gpu0/rpm</resource>
+
+		<!-- generic cpufreq -->
+		<resource name="cpu0-freq" type="cpufreq">/sys/devices/system/cpu/cpu0/cpufreq</resource>
+		<resource name="cpu1-freq" type="cpufreq">/sys/devices/system/cpu/cpu1/cpufreq</resource>
+		<resource name="cpu2-freq" type="cpufreq">/sys/devices/system/cpu/cpu2/cpufreq</resource>
+		<resource name="cpu3-freq" type="cpufreq">/sys/devices/system/cpu/cpu3/cpufreq</resource>
+
+		<resource name="cpu-freq" type="union">
+			<resource name="cpu0-freq" />
+			<resource name="cpu1-freq" />
+			<resource name="cpu2-freq" />
+			<resource name="cpu3-freq" />
+		</resource>
+
+		<resource name="cpu-temp" type="union">
+			<resource name="zone0" />
+			<resource name="zone1" />
+			<resource name="zone2" />
+			<resource name="zone3" />
+		</resource>
+
+		<resource name="gpu-temp" type="alias" resource="zone4" />
+		<resource name="shutdown" type="halt" delay="5" />
+	</resources>
+
+	<control name="cpu-ctrl">
+		<mitigation level="off"><value resource="cpu-freq">1512000</value></mitigation>
+		<mitigation level="1"><value resource="cpu-freq">1350000</value></mitigation>
+		<mitigation level="2"><value resource="cpu-freq">1134000</value></mitigation>
+		<mitigation level="3"><value resource="cpu-freq">810000</value></mitigation>
+		<mitigation level="4"><value resource="cpu-freq">702000</value></mitigation>
+		<mitigation level="5"><value resource="cpu-freq">594000</value></mitigation>
+		<mitigation level="6"><value resource="cpu-freq">486000</value></mitigation>
+		<mitigation level="7"><value resource="cpu-freq">384000</value></mitigation>
+		<mitigation level="8"><value resource="shutdown" /></mitigation>
+	</control>
+
+	<control name="gpu-ctrl">
+		<mitigation level="off"><value resource="gpu-fan">0</value></mitigation>
+		<mitigation level="1"><value resource="gpu-fan">1000</value></mitigation>
+		<mitigation level="2"><value resource="gpu-fan">2500</value></mitigation>
+		<mitigation level="3"><value resource="gpu-fan">3000</value></mitigation>
+	</control>
+
+	<configuration sensor="gpu-temp">
+		<threshold>
+			<mitigation name="gpu-ctrl" level="off" />
+		</threshold>
+		<threshold trigger="95000" clear="90000">
+			<mitigation name="gpu-ctrl" level="1" />
+		</threshold>
+		<threshold trigger="110000" clear="105000">
+			<mitigation name="gpu-ctrl" level="2" />
+		</threshold>
+		<threshold trigger="115000" clear="110000">
+			<mitigation name="gpu-ctrl" level="3" />
+		</threshold>
+	</configuration>
+
+	<configuration sensor="cpu-temp">
+		<threshold>
+			<mitigation name="cpu-ctrl" level="off" />
+		</threshold>
+		<threshold trigger="70000" clear="67000">
+			<mitigation name="cpu-ctrl" level="1" />
+		</threshold>
+		<threshold trigger="90000" clear="85000">
+			<mitigation name="cpu-ctrl" level="2" />
+		</threshold>
+		<threshold trigger="95000" clear="90000">
+			<mitigation name="cpu-ctrl" level="3" />
+		</threshold>
+		<threshold trigger="100000" clear="95000">
+			<mitigation name="cpu-ctrl" level="4" />
+		</threshold>
+		<threshold trigger="105000" clear="100000">
+			<mitigation name="cpu-ctrl" level="5" />
+		</threshold>
+		<threshold trigger="110000" clear="105000">
+			<mitigation name="cpu-ctrl" level="6" />
+		</threshold>
+		<threshold trigger="115000" clear="110000">
+			<mitigation name="cpu-ctrl" level="7" />
+		</threshold>
+		<threshold trigger="120000" clear="115000">
+			<mitigation name="cpu-ctrl" level="8" />
+		</threshold>
+	</configuration>
+</thermanager>
