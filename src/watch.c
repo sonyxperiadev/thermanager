@@ -144,6 +144,7 @@ void watch_wait(struct watch *w)
 	if (rc < 0)
 		return;
 
+	idx = 0;
 	now = time_ms();
 	for_list_node(&w->tickets, node) {
 		int fresh = 0;
