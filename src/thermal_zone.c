@@ -107,13 +107,6 @@ static void thermal_trip_cb(void *data, struct watch_ticket *ticket)
 
 static void thermal_trip_enable(struct thermal_trip *trip)
 {
-#if 0
-	if (trip->type_fd != -1) {
-		write(trip->type_fd, "enabled", 7);
-		lseek(trip->type_fd, 0, SEEK_SET);
-	}
-#endif
-
 	if (trip->ticket == NULL) {
 		if (trip->type_fd != -1)
 			trip->ticket = watch_manager_add_fd(trip->type_fd);
@@ -129,12 +122,6 @@ static void thermal_trip_disable(struct thermal_trip *trip)
 		watch_ticket_delete(trip->ticket);
 		trip->ticket = NULL;
 	}
-#if 0
-	if (trip->type_fd != -1) {
-		write(trip->type_fd, "disabled", 8);
-		lseek(trip->type_fd, 0, SEEK_SET);
-	}
-#endif
 }
 
 struct thermal_zone *thermal_zone_open(const char *dir)
