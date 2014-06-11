@@ -148,11 +148,11 @@ static int parse_one_resource(void *data, const struct dom_obj *obj)
 	}
 
 	if (res == NULL) {
-		LOGE("failed to attach resource \"%s\""
+		LOGW("failed to attach resource \"%s\""
 				" [%s], ignoring\n", name, type);
 		return 0;
 	}
-	LOG("attached resource \"%s\" [%s]\n", name, type);
+	LOGV("attached resource \"%s\" [%s]\n", name, type);
 
 	resource_manager_add(res);
 
