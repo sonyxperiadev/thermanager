@@ -15,7 +15,10 @@
 LOCAL_PATH:= $(call my-dir)
 
 include $(CLEAR_VARS)
-LOCAL_C_INCLUDES := external/libxml2/include external/icu4c/common
+LOCAL_C_INCLUDES := \
+	external/libxml2/include \
+	external/icu4c/common/ \
+	external/icu/icu4c/source/common
 LOCAL_SRC_FILES := \
 	src/configuration.c \
 	src/control.c \
