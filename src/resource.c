@@ -562,7 +562,7 @@ static void resource_halt_cb(void *data, struct watch_ticket *ticket)
 {
 	//struct halt_resource *ares = (struct halt_resource)data;
 	watch_ticket_delete(ticket);
-	LOG("halting\n");
+	KLOGE("halting\n");
 	util_halt();
 }
 
@@ -579,7 +579,7 @@ static void resource_halt_enable(struct resource *res)
 {
 	struct halt_resource *ares =
 			container_of(res, struct halt_resource, resource);
-	LOG("will halt in %d seconds\n", ares->delay);
+	KLOGE("will halt in %d seconds\n", ares->delay);
 	if (!ares->ticket) {
 		ares->ticket = watch_manager_add_null();
 		if (!ares->ticket)
