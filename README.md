@@ -13,6 +13,9 @@ Resources are used to provide I/O functionality.  There are several different ty
 * "sysfs" - Usually a text file in /sys which holds a value, or can have a value written to it.  
 `<resource name="gpu-fan" type="sysfs">/sys/class/fan/gpu0/rpm</resource>`
 
+* "sysfs-ro" - Usually a text file in /sys which holds a read-only value like temperatures.  
+`<resource name="gpu-temp" type="sysfs-ro">/sys/class/fan/gpu0/temp</resource>`
+
 * "tz" - A thermal zone directory for reading temperatures.  
 `<resource name="zone0" type="tz">/sys/class/thermal/thermal_zone0</resource>`
 

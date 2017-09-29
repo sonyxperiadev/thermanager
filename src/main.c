@@ -110,7 +110,11 @@ static int parse_one_resource(void *data, const struct dom_obj *obj)
 	} else if (!strcmp(type, "sysfs")) {
 		if (obj->content == NULL)
 			return -1;
-		res = resource_sysfs_open(name, obj->content);
+		res = resource_sysfs_open(name, obj->content, RESOURCE_SYSFS_RDWR);
+	} else if (!strcmp(type, "sysfs-ro")) {
+		if (obj->content == NULL)
+			return -1;
+		res = resource_sysfs_open(name, obj->content, RESOURCE_SYSFS_RDONLY);
 	} else if (!strcmp(type, "deadband")) {
 		const char *alias;
 		const char *ssize;
