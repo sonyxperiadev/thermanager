@@ -290,7 +290,8 @@ static int resource_sysfs_write_value(struct resource *res,
 	return -(rc <= 0);
 }
 
-struct resource *resource_sysfs_open(const char *name, const char *file)
+struct resource *resource_sysfs_open(const char *name, const char *file,
+		enum resource_sysfs_t sysfs_type)
 {
 	struct sysfs_resource *res;
 
@@ -298,18 +299,31 @@ struct resource *resource_sysfs_open(const char *name, const char *file)
 	if (res == NULL)
 		return NULL;
 
-	res->fd = open(file, O_RDWR);
-	if (res->fd == -1) {
-		res->fd = open(file, O_RDONLY);
-		if (res->fd == -1) {
-			free(res);
-			return NULL;
-		}
-	} else {
-		res->resource.write_value = resource_sysfs_write_value;
-		res->resource.enable = resource_sysfs_enable;
-		res->resource.disable = resource_sysfs_disable;
+	switch (sysfs_type) {
+		case RESOURCE_SYSFS_RDONLY:
+			res->fd = open(file, O_RDONLY);
+			if (res->fd == -1) {
+				free(res);
+				return NULL;
+			}
+			break;
+
+		case RESOURCE_SYSFS_RDWR:
+			res->fd = open(file, O_RDWR);
+			if (res->fd == -1) {
+				res->fd = open(file, O_RDONLY);
+				if (res->fd == -1) {
+					free(res);
+					return NULL;
+				}
+			} else {
+				res->resource.write_value = resource_sysfs_write_value;
+				res->resource.enable = resource_sysfs_enable;
+				res->resource.disable = resource_sysfs_disable;
+			}
+		break;
 	}
+
 	res->resource.read_value = resource_sysfs_read_value;
 	res->resource.close = resource_sysfs_close;
 
@@ -820,7 +834,7 @@ struct resource *resource_msmadc_open(const char *name, const char *file)
 	struct msmadc_resource *res;
 	struct resource *sysfs;
 
-	sysfs = resource_sysfs_open("", file);
+	sysfs = resource_sysfs_open("", file, RESOURCE_SYSFS_RDONLY);
 	if (sysfs == NULL)
 		return NULL;
 

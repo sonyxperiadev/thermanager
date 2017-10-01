@@ -3,6 +3,11 @@
 
 #include "list.h"
 
+enum resource_sysfs_t {
+	RESOURCE_SYSFS_RDONLY,
+	RESOURCE_SYSFS_RDWR,
+};
+
 struct resource {
 	char name[256];
 
@@ -24,7 +29,8 @@ void resource_manager_remove(struct resource *res);
 void resource_manager_prepare(void);
 
 struct resource *resource_tz_open(const char *name, const char *file);
-struct resource *resource_sysfs_open(const char *name, const char *file);
+struct resource *resource_sysfs_open(const char *name, const char *file,
+		enum resource_sysfs_t sysfs_type);
 struct resource *resource_union_open(const char *name,
 		int count, const char **children_names);
 struct resource *resource_alias_open(const char *name, const char *aliased);
