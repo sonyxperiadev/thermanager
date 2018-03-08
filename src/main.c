@@ -61,7 +61,8 @@ static int parse_multi_X(const struct dom_obj *obj, const char *name,
 	return 0;
 }
 
-static int parse_one_resource(void *data, const struct dom_obj *obj)
+static int parse_one_resource(void *data __attribute__ ((__unused__)),
+		const struct dom_obj *obj)
 {
 	struct resource *res;
 	const char *type;

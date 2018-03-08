@@ -572,7 +572,8 @@ struct halt_resource {
 	int delay;
 };
 
-static void resource_halt_cb(void *data, struct watch_ticket *ticket)
+static void resource_halt_cb(void *data __attribute__ ((__unused__)),
+		struct watch_ticket *ticket)
 {
 	//struct halt_resource *ares = (struct halt_resource)data;
 	watch_ticket_delete(ticket);

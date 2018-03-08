@@ -1,4 +1,4 @@
-CFLAGS := -Wall -g -I/usr/include/libxml2
+CFLAGS := -Wall -Wunused-parameter -g -I/usr/include/libxml2
 LDFLAGS := -l xml2
 
 proj := thermanager
