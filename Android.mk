@@ -33,7 +33,7 @@ LOCAL_SRC_FILES := \
 	src/util.c \
 	src/main.c \
 
-LOCAL_SHARED_LIBRARIES := liblog libicuuc libcutils
+LOCAL_SHARED_LIBRARIES := liblog libandroidicu libcutils
 LOCAL_STATIC_LIBRARIES := libxml2
 LOCAL_MODULE := thermanager
 LOCAL_MODULE_TAGS := optional
