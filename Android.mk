@@ -33,7 +33,12 @@ LOCAL_SRC_FILES := \
 	src/util.c \
 	src/main.c \
 
-LOCAL_SHARED_LIBRARIES := liblog libandroidicu libcutils
+ifeq (1,$(filter 1,$(shell echo "$$(( $(PLATFORM_SDK_VERSION) >= 29 ))" )))
+LOCAL_SHARED_LIBRARIES := libandroidicu
+else
+LOCAL_SHARED_LIBRARIES := libicuuc
+endif # Guard building for legacy Android
+LOCAL_SHARED_LIBRARIES += liblog libcutils
 LOCAL_STATIC_LIBRARIES := libxml2
 LOCAL_MODULE := thermanager
 LOCAL_MODULE_TAGS := optional
